@@ -13,7 +13,7 @@ class Client {
         Client() : name("undefined_client"), client_pack_list() {}
 
         // Construtor completo.
-        Client(std::string& name) : name(name), client_pack_list() {}
+        Client(const std::string& name) : name(name), client_pack_list() {}
 
         // Destrutor.
         ~Client() = default;

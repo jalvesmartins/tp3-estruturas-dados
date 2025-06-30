@@ -52,7 +52,7 @@ int main (int argc, char* argv[]) {
         
         switch (query) {
 
-        case EV:
+        case EV: {
             
             inputFile >> event_type_string;
 
@@ -110,10 +110,30 @@ int main (int argc, char* argv[]) {
                 
                 // Processa o evento.
                 system.processOtherPackEvent(event, event_count);
+
+            } else if (event_type_string == "EN") {
+                // Faz a leitura dos outros atributos.
+                inputFile >> pack_id >> destination_warehouse;
+
+                // Adiciona o evento na base de dados.
+                Event event(event_time, EN, pack_id, " ", " ", -1, destination_warehouse, -1);
+                system.getEvents()[event_count] = event;
+                
+                // Processa o evento.
+                system.processOtherPackEvent(event, event_count);
             }
 
+            event_count++;
+
             break;
-        
+        }
+
+        case PC: {
+            
+            break;
+        }
+
+
         default:
             break;
         }

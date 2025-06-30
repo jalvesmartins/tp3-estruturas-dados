@@ -10,8 +10,8 @@
 
 class System {
     private:
-        HashMap<std::string, Client> client_map;
-        HashMap<int, Package> package_map;
+        HashMap<std::string, Client*> client_map;
+        HashMap<int, Package*> package_map;
         Event events[200] = {};
 
     public:
