@@ -21,5 +21,8 @@ class Package {
 
         // Getters
         int getId() const;
-        List<int>& getEvents();
+        const List<int>& getEvents() const;
+
+        // Adiciona um evento ao índice do pacote.
+        void addEvent(int event_position);
 };
