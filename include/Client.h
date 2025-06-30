@@ -36,4 +36,7 @@ class Client {
 
         // Atualiza o index do último evento de um pacote.
         void updatePack(int pack_id, int registration);
+
+        // Retorna uma lista com todos os índices de eventos;
+        List<int> getClientEvents();
 };

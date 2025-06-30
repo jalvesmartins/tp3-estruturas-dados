@@ -160,6 +160,29 @@ class List {
             return head == nullptr;
         }
 
+        void List<T>::insertSorted(const T& value) {
+            Node<T>* newNode = new Node<T>(value);
+
+            // Caso a lista está vazia ou o novo elemento é o menor de todos.
+            if (head_ == nullptr || value < head_->data) {
+                newNode->next = head_;
+                head_ = newNode;
+                size_++;
+                return;
+            }
+
+            // Procura o local correto de insersão.
+            Node<T>* current = head_;
+            while (current->next != nullptr && current->next->data < value) {
+                current = current->next;
+            }
+
+            // Insere o novo nó.
+            newNode->next = current->next;
+            current->next = newNode;
+            size_++;
+        }
+
         // Overload do operador =. Copia uma lista para a outra.
         List<T>& operator=(const List<T>& other) {
             // Proteção contra auto-atribuição.

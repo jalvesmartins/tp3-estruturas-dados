@@ -33,3 +33,26 @@ void Client::updatePack(int pack_id, int new_index) {
 
     current->data.current_index = new_index;
 }
+
+List<int> Client::getClientEvents() {
+    List<int> events;
+
+    List<PackageStatus>::L_Node* current = this->client_pack_list.getHead();
+
+    // Verifica se o pacote já esta na lista.
+    while (current != nullptr) {
+        events.insertSorted(current->data.registration_index);
+
+        current = current->next;
+    }
+
+    current = this->client_pack_list.getHead();
+
+    while (current != nullptr) {
+        if (current->data.current_index != current->data.registration_index) {
+            events.insertSorted(current->data.current_index);
+        }
+    }
+
+    return events;
+}
