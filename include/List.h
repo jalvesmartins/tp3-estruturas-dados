@@ -147,12 +147,26 @@ class List {
         }
 
         // Retorna o load do primeiro elemento.
-        T& getFrontData() {
+        T& getFrontData() const {
             if (isEmpty()) {
                 std::cerr << "ERRO: Tentativa de getFrontData() em uma lista vazia." << std::endl;
                 exit(1);
             }
             return this->head->data;
+        }
+
+        // Verifica se a lista está vazia.
+        bool isEmpty() const {
+            return head == nullptr;
+        }
+
+        // Retorna o load do último elemento.
+        T& getFrontData() const {
+            if (isEmpty()) {
+                std::cerr << "ERRO: Tentativa de getFrontData() em uma lista vazia." << std::endl;
+                exit(1);
+            }
+            return this->tail->data;
         }
 
         // Verifica se a lista está vazia.
