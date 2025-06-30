@@ -161,7 +161,7 @@ class List {
         }
 
         // Retorna o load do último elemento.
-        T& getFrontData() const {
+        T& getBackData() const {
             if (isEmpty()) {
                 std::cerr << "ERRO: Tentativa de getFrontData() em uma lista vazia." << std::endl;
                 exit(1);
