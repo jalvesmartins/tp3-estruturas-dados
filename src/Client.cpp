@@ -39,7 +39,7 @@ List<int> Client::getClientEvents() {
 
     List<PackageStatus>::L_Node* current = this->client_pack_list.getHead();
 
-    // Verifica se o pacote já esta na lista.
+    // Os dois loops são usados para evitar o pior caso de complexidade n², inserindo primeiro os índices menores, em O(1), e depois os maiores.
     while (current != nullptr) {
         events.insertSorted(current->data.registration_index);
 
