@@ -24,6 +24,4 @@ class Client {
 
         // Adiciona um pacote ao cliente.
         void addPack(int pack_id);
-
-        int removePack(int pack_id);
 };
