@@ -16,7 +16,7 @@ std::string Event::getSender() const {
     return this->sender;
 }
 
-std::string Event::getRecepient() const {
+std::string Event::getRecipient() const {
     return this->recipient;
 }
 

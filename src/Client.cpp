@@ -18,7 +18,7 @@ void Client::addPack(int pack_id, int registration) {
 void Client::updatePack(int pack_id, int new_index) {
     List<PackageStatus>::L_Node* current = this->client_pack_list.getHead();
 
-    // Verifica se o pacote já esta na lista.
+    // Verifica se o pacote esta na lista.
     while (current != nullptr) {
         if (current->data.pack_id == pack_id) {
             break;

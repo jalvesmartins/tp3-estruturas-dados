@@ -8,7 +8,7 @@ template <typename Key, typename Value>
 struct Node {
     Key key;
     Value value;
-    Node* next;
+    Node<Key, Value>* next;
 
     Node(const Key& key, const Value& value) : key(key), value(value), next(nullptr) {}
 };
@@ -134,7 +134,7 @@ class HashMap {
 
             while (node != nullptr) {
                 if (node->key == key) {
-                    return node->value;
+                    return &node->value;
                 }
                 node = node->next;
             }
