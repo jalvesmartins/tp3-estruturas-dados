@@ -21,4 +21,9 @@ class Client {
         // Getters
         std::string getName() const;
         const List<int>& getPacks() const;
+
+        // Adiciona um pacote ao cliente.
+        void addPack(int pack_id);
+
+        int removePack(int pack_id);
 };

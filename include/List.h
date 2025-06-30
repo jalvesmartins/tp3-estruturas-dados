@@ -5,19 +5,13 @@
 // Lista encadeada usando template.
 template<typename T>
 class List {
-    private:
-        // Nó da lista.
+    public:
         struct L_Node {
             T data; // Dado em si.
             L_Node* next; // Ponteiro para o próximo nó.
             L_Node(T& data_ref) : data(data_ref), next(nullptr) {} // Construtor.
         };
 
-        L_Node* head; // Nó "cabeça" da lista.
-        L_Node* tail; // Nó "rabo" da lista.
-        int size;     // Tamanho da lista.
-
-    public:
         // Construtor padrão
         List() : head(nullptr), tail(nullptr) {}
 
@@ -187,4 +181,9 @@ class List {
 
             return *this;
         }
+
+        private:
+            L_Node* head; // Nó "cabeça" da lista.
+            L_Node* tail; // Nó "rabo" da lista.
+            int size;     // Tamanho da lista.
 };
