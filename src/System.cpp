@@ -6,6 +6,14 @@ Event* System::getEvents() {
     return this->events;
 }
 
+HashMap<std::string, Client*>& System::getClientHash() {
+    return this->client_map;
+}
+
+HashMap<int, Package*>& System::getPackageHash() {
+    return this->package_map;
+}
+
 void System::processRG(Event& event, int index) {
     // Cria novo pacote.
     Package* new_pack = new Package(event.getPackId(), index);

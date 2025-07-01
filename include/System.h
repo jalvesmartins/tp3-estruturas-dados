@@ -22,6 +22,8 @@ class System {
 
         // Getters
         Event* getEvents();
+        HashMap<std::string, Client*>& getClientHash();
+        HashMap<int, Package*>& getPackageHash();
 
         // Processa o registro de um pacote.
         void processRG(Event& event, int index);
