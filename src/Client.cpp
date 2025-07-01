@@ -11,6 +11,16 @@ const List<Package*>& Client::getPacks() const {
 }
 
 void Client::addPack(Package* pack) {
+    List<Package *>::L_Node* node = client_pack_list.getHead();
+    
+    // Verifica se o cliente já contém o pacote.
+    while (node != nullptr) {
+        if (node->data == pack) {
+            return;
+        }
+        node = node->next;
+    }
+
     this->client_pack_list.pushBack(pack);
 }
 
