@@ -7,6 +7,7 @@
 
 #include <string>
 #include <fstream>
+#include <cstdio>
 
 class System {
     private:
@@ -22,8 +23,12 @@ class System {
         // Getters
         Event* getEvents();
 
+        // Processa o registro de um pacote.
         void processRG(Event& event, int index);
-
+        
+        // Processa os outros eventos de um pacote.
         void processOtherPackEvent(Event& event, int index);
 
+        // Imprime um evento.
+        void printEvent(Event& event);
 };

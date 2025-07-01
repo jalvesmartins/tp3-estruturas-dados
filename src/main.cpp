@@ -32,7 +32,7 @@ int main (int argc, char* argv[]) {
     int event_time = -1;                // Tempo do evento
     std::string query_type_string;      // Tipo do evento em string, para leitura.
     query_type query;                   // Tipo de consulta.
-    std::string event_type_string;      // Tipo de evento em string, para leitura.
+    std::string event_type;             // Tipo de evento em string, para leitura.
     int pack_id = -1;                   // id do pacote.
     std::string sender;                 // Remetente.
     std::string recipient;              // Destinatário.
@@ -54,69 +54,69 @@ int main (int argc, char* argv[]) {
 
         case EV: {
             
-            inputFile >> event_type_string;
+            inputFile >> event_type;
 
-            if (event_type_string == "RG") {
+            if (event_type == "RG") {
                 // Faz a leitura dos outros atributos.
                 inputFile >> pack_id >> sender >> recipient >> origin_warehouse >> destination_warehouse;
                 
                 // Adiciona o evento na base de dados.
-                Event event(event_time, RG, pack_id, sender, recipient, origin_warehouse, destination_warehouse, -1);
+                Event event(event_time, "RG", pack_id, sender, recipient, origin_warehouse, destination_warehouse, -1);
                 system.getEvents()[event_count] = event;
 
                 // Processa o evento.
                 system.processRG(event, event_count);
 
-            } else if (event_type_string == "AR") {
+            } else if (event_type == "AR") {
                 // Faz a leitura dos outros atributos.
                 inputFile >> pack_id >> destination_warehouse >> next_warehouse;
 
                 // Adiciona o evento na base de dados.
-                Event event(event_time, AR, pack_id, " ", " ", -1, destination_warehouse, next_warehouse);
+                Event event(event_time, "AR", pack_id, "", "", -1, destination_warehouse, next_warehouse);
                 system.getEvents()[event_count] = event;
                 
                 // Processa o evento.
                 system.processOtherPackEvent(event, event_count);
 
-            } else if (event_type_string == "RM") {
+            } else if (event_type == "RM") {
                 // Faz a leitura dos outros atributos.
                 inputFile >> pack_id >> destination_warehouse >> next_warehouse;
 
                 // Adiciona o evento na base de dados.
-                Event event(event_time, RM, pack_id, " ", " ", -1, destination_warehouse, next_warehouse);
+                Event event(event_time, "RM", pack_id, "", "", -1, destination_warehouse, next_warehouse);
                 system.getEvents()[event_count] = event;
                 
                 // Processa o evento.
                 system.processOtherPackEvent(event, event_count);
                 
-            } else if (event_type_string == "UM") {
+            } else if (event_type == "UM") {
                 // Faz a leitura dos outros atributos.
                 inputFile >> pack_id >> destination_warehouse >> next_warehouse;
 
                 // Adiciona o evento na base de dados.
-                Event event(event_time, UM, pack_id, " ", " ", -1, destination_warehouse, next_warehouse);
+                Event event(event_time, "UM", pack_id, "", "", -1, destination_warehouse, next_warehouse);
                 system.getEvents()[event_count] = event;
                 
                 // Processa o evento.
                 system.processOtherPackEvent(event, event_count);
 
-            } else if (event_type_string == "TR") {
+            } else if (event_type == "TR") {
                 // Faz a leitura dos outros atributos.
                 inputFile >> pack_id >> destination_warehouse >> next_warehouse;
 
                 // Adiciona o evento na base de dados.
-                Event event(event_time, UM, pack_id, " ", " ", -1, destination_warehouse, next_warehouse);
+                Event event(event_time, "UM", pack_id, "", "", -1, destination_warehouse, next_warehouse);
                 system.getEvents()[event_count] = event;
                 
                 // Processa o evento.
                 system.processOtherPackEvent(event, event_count);
 
-            } else if (event_type_string == "EN") {
+            } else if (event_type == "EN") {
                 // Faz a leitura dos outros atributos.
                 inputFile >> pack_id >> destination_warehouse;
 
                 // Adiciona o evento na base de dados.
-                Event event(event_time, EN, pack_id, " ", " ", -1, destination_warehouse, -1);
+                Event event(event_time, "EN", pack_id, "", "", -1, destination_warehouse, -1);
                 system.getEvents()[event_count] = event;
                 
                 // Processa o evento.

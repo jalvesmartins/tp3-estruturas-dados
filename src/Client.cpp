@@ -14,6 +14,7 @@ void Client::addPack(Package* pack) {
     this->client_pack_list.pushBack(pack);
 }
 
+// Retorna os eventos de um cliente de forma ordenada.
 List<int> Client::getClientEvents() {
     List<int> events;
 

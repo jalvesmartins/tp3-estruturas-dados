@@ -4,7 +4,7 @@ SRC_DIR = src
 OBJ_DIR = obj
 BIN_DIR = bin
 INCLUDE_DIR = include
-TARGET = $(BIN_DIR)/tp2.out
+TARGET = $(BIN_DIR)/tp3.out
 
 SRCS = $(wildcard $(SRC_DIR)/*.cpp)
 OBJS = $(patsubst $(SRC_DIR)/%.cpp, $(OBJ_DIR)/%.o, $(SRCS))

@@ -38,3 +38,22 @@ void System::processOtherPackEvent(Event& event, int index) {
     (*pack)->addEvent(index);
 }
 
+void System::printEvent(Event& event) {
+    printf("%07d EV %s %03d", event.getEventTime(), event.getEventType(), event.getPackId());
+
+    // Imprime apenas as variáveis não nulas.
+    if (event.getSender() != "") {
+        printf(" %s %s", event.getSender(), event.getRecipient());
+    }
+    if (event.getOriginWarehouse() != -1) {
+        printf(" %03d", event.getOriginWarehouse());
+    }
+    if (event.getDestinationWarehouse() != -1) {
+        printf(" %03d", event.getDestinationWarehouse());
+    }
+    if (event.getNextWarehouse() != -1) {
+        printf(" %03d", event.getNextWarehouse());
+    }
+    printf("\n");
+}
+

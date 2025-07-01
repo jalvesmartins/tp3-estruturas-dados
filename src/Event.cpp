@@ -4,7 +4,7 @@ int Event::getEventTime() const {
     return this->event_time;
 }
 
-event_type Event::getEventType() const {
+std::string Event::getEventType() const {
     return this->type;
 }
 
