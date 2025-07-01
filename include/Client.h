@@ -2,6 +2,7 @@
 
 #include <string>
 #include "./List.h"
+#include "../include/Package.h"
 
 class Client {
     private:

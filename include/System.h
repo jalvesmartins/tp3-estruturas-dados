@@ -18,7 +18,11 @@ class System {
     public:
         System() : client_map(), package_map(), events() {}
 
-        ~System() = default;
+        ~System() {
+            client_map.deleteAllValues();
+            package_map.deleteAllValues();
+
+        };
 
         // Getters
         Event* getEvents();

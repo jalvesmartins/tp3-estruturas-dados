@@ -1,7 +1,7 @@
 #pragma once
 
 #include <functional>
-#include <stdexcept>
+#include <iostream>
 
 // Estrutura de um nó na lista encadeada de um bucket.
 template <typename Key, typename Value>
@@ -89,20 +89,6 @@ class HashMap {
             delete[] old_table;
         }
 
-        // Libera toda a memória alocada.
-        void clearTable() {
-            for (int i = 0; i < capacity; i++) {
-                Node<Key, Value>* node = table[i];
-                while (node != nullptr) {
-                    Node<Key, Value>* temp = node;
-                    node = node->next;
-                    delete temp;
-                }
-                table[i] = nullptr;
-            }
-            count = 0;
-        }
-
         // Insere ou atualiza um par (chave, valor).
         void insert(const Key& key, const Value& value) {
             int index = getBucketIndex(key);
@@ -139,7 +125,6 @@ class HashMap {
                 node = node->next;
             }
             
-            std::cout << "ERRO: Valor não encontrado no hash";
             return nullptr;
         }
 
@@ -154,6 +139,31 @@ class HashMap {
             }
 
             return false;
+        }
+
+        // Libera toda a memória da tabela alocada.
+        void clearTable() {
+            for (int i = 0; i < capacity; i++) {
+                Node<Key, Value>* node = table[i];
+                while (node != nullptr) {
+                    Node<Key, Value>* temp = node;
+                    node = node->next;
+                    delete temp;
+                }
+                table[i] = nullptr;
+            }
+            count = 0;
+        }
+
+        // Libera toda a memória dos objetos alocados.
+        void deleteAllValues() {
+            for (int i = 0; i < capacity; ++i) {
+                Node<Key, Value>* node = table[i];
+                while (node != nullptr) {
+                    delete node->value; // Deleta o objeto apontado pelo ponteiro
+                    node = node->next;
+                }
+            }
         }
 
         // Retorna o número de elementos.

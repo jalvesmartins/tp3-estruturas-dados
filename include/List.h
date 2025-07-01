@@ -9,7 +9,7 @@ class List {
         struct L_Node {
             T data; // Dado em si.
             L_Node* next; // Ponteiro para o próximo nó.
-            L_Node(T& data_ref) : data(data_ref), next(nullptr) {} // Construtor.
+            L_Node(const T& data_ref) : data(data_ref), next(nullptr) {}
         };
 
         // Construtor padrão
@@ -155,11 +155,6 @@ class List {
             return this->head->data;
         }
 
-        // Verifica se a lista está vazia.
-        bool isEmpty() const {
-            return head == nullptr;
-        }
-
         // Retorna o load do último elemento.
         T& getBackData() const {
             if (isEmpty()) {
@@ -172,6 +167,10 @@ class List {
         // Verifica se a lista está vazia.
         bool isEmpty() const {
             return head == nullptr;
+        }
+
+        int getSize() const {
+            return this->size;
         }
 
         void insertSorted(const T& value) {

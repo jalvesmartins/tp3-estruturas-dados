@@ -1,6 +1,4 @@
 #include "../include/Client.h"
-#include "../include/List.h"
-#include "../include/Package.h"
 
 std::string Client::getName() const {
     return this->name;
@@ -42,6 +40,7 @@ List<int> Client::getClientEvents() {
         if (current->data->getEvents().getFrontData() != current->data->getEvents().getBackData()) {
             events.insertSorted(current->data->getEvents().getBackData());
         }
+        current = current->next;
     }
 
     return events;

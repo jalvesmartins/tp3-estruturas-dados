@@ -47,11 +47,11 @@ void System::processOtherPackEvent(Event& event, int index) {
 }
 
 void System::printEvent(Event& event) {
-    printf("%07d EV %s %03d", event.getEventTime(), event.getEventType(), event.getPackId());
+    printf("%07d EV %s %03d", event.getEventTime(), event.getEventType().c_str(), event.getPackId());
 
     // Imprime apenas as variáveis não nulas.
     if (event.getSender() != "") {
-        printf(" %s %s", event.getSender(), event.getRecipient());
+        printf(" %s %s", event.getSender().c_str(), event.getRecipient().c_str());
     }
     if (event.getOriginWarehouse() != -1) {
         printf(" %03d", event.getOriginWarehouse());

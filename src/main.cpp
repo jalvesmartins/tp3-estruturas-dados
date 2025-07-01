@@ -30,18 +30,11 @@ int main (int argc, char* argv[]) {
 
     int event_count = 0;                // Índice do evento.
     int event_time = -1;                // Tempo do evento
-    std::string query_type_string;      // Tipo do evento em string, para leitura.
-    query_type query;                   // Tipo de consulta.
-    std::string event_type;             // Tipo de evento em string, para leitura.
-    int pack_id = -1;                   // id do pacote.
-    std::string sender;                 // Remetente.
-    std::string recipient;              // Destinatário.
-    int origin_warehouse = -1;          // Armazém de destino
-    int destination_warehouse = -1;     // Armazém de origem.
-    int next_warehouse = -1;            // Próxima sessão.
 
     // Começa o loop de eventos, faz a leitura até que acabem os eventos.
     while (inputFile >> event_time) {
+        std::string query_type_string;  // Tipo do evento em string, para leitura.
+        query_type query;                   // Tipo de consulta.
 
         // Faz a leitura do tipo da consulta.
         inputFile >> query_type_string;
@@ -53,74 +46,54 @@ int main (int argc, char* argv[]) {
         switch (query) {
 
         case EV: {
-            
+            std::string event_type;
+            int pack_id = -1;
+            std::string sender, recipient;
+            int origin_warehouse = -1;
+            int destination_warehouse = -1;
+            int next_warehouse = -1;
+
+            // Faz a leitura do tipo do evento.
             inputFile >> event_type;
 
             if (event_type == "RG") {
-                // Faz a leitura dos outros atributos.
                 inputFile >> pack_id >> sender >> recipient >> origin_warehouse >> destination_warehouse;
-                
-                // Adiciona o evento na base de dados.
                 Event event(event_time, "RG", pack_id, sender, recipient, origin_warehouse, destination_warehouse, -1);
                 system.getEvents()[event_count] = event;
-
-                // Processa o evento.
                 system.processRG(event, event_count);
-
-            } else if (event_type == "AR") {
-                // Faz a leitura dos outros atributos.
-                inputFile >> pack_id >> destination_warehouse >> next_warehouse;
-
-                // Adiciona o evento na base de dados.
-                Event event(event_time, "AR", pack_id, "", "", -1, destination_warehouse, next_warehouse);
-                system.getEvents()[event_count] = event;
-                
-                // Processa o evento.
-                system.processOtherPackEvent(event, event_count);
-
-            } else if (event_type == "RM") {
-                // Faz a leitura dos outros atributos.
-                inputFile >> pack_id >> destination_warehouse >> next_warehouse;
-
-                // Adiciona o evento na base de dados.
-                Event event(event_time, "RM", pack_id, "", "", -1, destination_warehouse, next_warehouse);
-                system.getEvents()[event_count] = event;
-                
-                // Processa o evento.
-                system.processOtherPackEvent(event, event_count);
-                
-            } else if (event_type == "UM") {
-                // Faz a leitura dos outros atributos.
-                inputFile >> pack_id >> destination_warehouse >> next_warehouse;
-
-                // Adiciona o evento na base de dados.
-                Event event(event_time, "UM", pack_id, "", "", -1, destination_warehouse, next_warehouse);
-                system.getEvents()[event_count] = event;
-                
-                // Processa o evento.
-                system.processOtherPackEvent(event, event_count);
-
-            } else if (event_type == "TR") {
-                // Faz a leitura dos outros atributos.
-                inputFile >> pack_id >> destination_warehouse >> next_warehouse;
-
-                // Adiciona o evento na base de dados.
-                Event event(event_time, "UM", pack_id, "", "", -1, destination_warehouse, next_warehouse);
-                system.getEvents()[event_count] = event;
-                
-                // Processa o evento.
-                system.processOtherPackEvent(event, event_count);
+                event_count++;
 
             } else if (event_type == "EN") {
-                // Faz a leitura dos outros atributos.
                 inputFile >> pack_id >> destination_warehouse;
-
-                // Adiciona o evento na base de dados.
                 Event event(event_time, "EN", pack_id, "", "", -1, destination_warehouse, -1);
                 system.getEvents()[event_count] = event;
-                
-                // Processa o evento.
                 system.processOtherPackEvent(event, event_count);
+                event_count++;
+
+            } else if (event_type == "AR" || event_type == "RM" || event_type == "UR" || event_type == "TR") {
+                inputFile >> pack_id >> destination_warehouse >> next_warehouse;
+                Event event(event_time, event_type, pack_id, "", "", -1, destination_warehouse, next_warehouse);
+                system.getEvents()[event_count] = event;
+                system.processOtherPackEvent(event, event_count);
+                event_count++;
+            }
+
+            break;
+        }
+
+        case PC: {
+            int pack_id = -1;   // id do pacote.
+
+            // Encontra o pacote lido.
+            inputFile >> pack_id;
+            Package** pack = system.getPackageHash().getValue(pack_id);
+            
+            List<int> event_list = (**pack).getEvents();
+
+            printf("%06d PC %03d\n%d\n", event_time, pack_id, event_list.getSize());
+
+            while (!event_list.isEmpty()) {
+                system.printEvent(system.getEvents()[event_list.popFront()]);
             }
 
             event_count++;
@@ -128,11 +101,31 @@ int main (int argc, char* argv[]) {
             break;
         }
 
-        case PC: {
+        case CL: {
+            // Encontra o cliente lido.
+            std::string client_name;
+            inputFile >> client_name;
+            Client** client = system.getClientHash().getValue(client_name);
+
+            if (client == nullptr || *client == nullptr) {
+                printf("%06d CL %s\n0\n", event_time, client_name.c_str());
+                event_count++;
+                break;
+            } else {
             
+            List<int> event_list = (**client).getClientEvents();
+
+            printf("%06d CL %s\n%d\n", event_time, client_name.c_str(), event_list.getSize());
+
+            while (!event_list.isEmpty()) {
+                system.printEvent(system.getEvents()[event_list.popFront()]);
+            }
+
+            event_count++;
+            }
+
             break;
         }
-
 
         default:
             break;

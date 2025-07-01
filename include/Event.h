@@ -34,6 +34,4 @@ class Event {
         int getOriginWarehouse() const;
         int getDestinationWarehouse() const;
         int getNextWarehouse() const;
-
-        //
 };
