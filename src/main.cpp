@@ -3,6 +3,7 @@
 #include <fstream>
 #include <iostream>
 
+// Tipos de consultas.
 enum query_type {
     EV,
     CL,
@@ -57,23 +58,38 @@ int main (int argc, char* argv[]) {
             inputFile >> event_type;
 
             if (event_type == "RG") {
+                // Leitura de variáveis do evento.
                 inputFile >> pack_id >> sender >> recipient >> origin_warehouse >> destination_warehouse;
+                
+                // Cria e guarda evento.
                 Event event(event_time, "RG", pack_id, sender, recipient, origin_warehouse, destination_warehouse, -1);
                 system.getEvents()[event_count] = event;
+
+                // Processa evento.
                 system.processRG(event, event_count);
                 event_count++;
 
             } else if (event_type == "EN") {
+                // Leitura de variáveis do evento.
                 inputFile >> pack_id >> destination_warehouse;
+
+                // Cria e guarda evento.
                 Event event(event_time, "EN", pack_id, "", "", -1, destination_warehouse, -1);
                 system.getEvents()[event_count] = event;
+
+                // Processa evento.
                 system.processOtherPackEvent(event, event_count);
                 event_count++;
 
             } else if (event_type == "AR" || event_type == "RM" || event_type == "UR" || event_type == "TR") {
+                // Leitura de variáveis do evento.
                 inputFile >> pack_id >> destination_warehouse >> next_warehouse;
+
+                // Cria e guarda evento.
                 Event event(event_time, event_type, pack_id, "", "", -1, destination_warehouse, next_warehouse);
                 system.getEvents()[event_count] = event;
+
+                // Processa evento.
                 system.processOtherPackEvent(event, event_count);
                 event_count++;
             }
@@ -88,11 +104,13 @@ int main (int argc, char* argv[]) {
             inputFile >> pack_id;
             Package** pack = system.getPackageHash().getValue(pack_id);
             
+            // Encontra os eventos do pacote.
             List<int> event_list = (**pack).getEvents();
 
             printf("%06d PC %03d\n%d\n", event_time, pack_id, event_list.getSize());
 
             while (!event_list.isEmpty()) {
+                // Imprime evento.
                 system.printEvent(system.getEvents()[event_list.popFront()]);
             }
 
@@ -105,19 +123,24 @@ int main (int argc, char* argv[]) {
             // Encontra o cliente lido.
             std::string client_name;
             inputFile >> client_name;
+
+            // Encontra o cliente.
             Client** client = system.getClientHash().getValue(client_name);
 
+            // Caso o cliente não exista, imprime 0.
             if (client == nullptr || *client == nullptr) {
                 printf("%06d CL %s\n0\n", event_time, client_name.c_str());
                 event_count++;
                 break;
             } else {
             
+            // Encontra os eventos do cliente.
             List<int> event_list = (**client).getClientEvents();
 
             printf("%06d CL %s\n%d\n", event_time, client_name.c_str(), event_list.getSize());
 
             while (!event_list.isEmpty()) {
+                // Imprime evento.
                 system.printEvent(system.getEvents()[event_list.popFront()]);
             }
 
@@ -128,6 +151,7 @@ int main (int argc, char* argv[]) {
         }
 
         default:
+
             break;
         }
     }

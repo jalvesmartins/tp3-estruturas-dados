@@ -28,7 +28,14 @@ List<int> Client::getClientEvents() {
 
     List<Package*>::L_Node* current = this->client_pack_list.getHead();
 
-    // Os dois loops são usados para evitar o pior caso de complexidade n², inserindo primeiro os índices menores, em O(1), e depois os maiores.
+    // Os dois loops são usados para evitar o pior caso de complexidade n², inserindo primeiro os maiores índices, em O(1), e depois os menores.
+    while (current != nullptr) {
+        if (current->data->getEvents().getFrontData() != current->data->getEvents().getBackData()) {
+            events.insertSorted(current->data->getEvents().getBackData());
+        }
+        current = current->next;
+    }
+
     while (current != nullptr) {
         events.insertSorted(current->data->getEvents().getFrontData()); 
         current = current->next;
@@ -37,9 +44,7 @@ List<int> Client::getClientEvents() {
     current = this->client_pack_list.getHead();
 
     while (current != nullptr) {
-        if (current->data->getEvents().getFrontData() != current->data->getEvents().getBackData()) {
-            events.insertSorted(current->data->getEvents().getBackData());
-        }
+        events.insertSorted(current->data->getEvents().getFrontData()); 
         current = current->next;
     }
 

@@ -24,9 +24,11 @@ void System::processRG(Event& event, int index) {
     if (!client_map.contains(event.getSender())) {
         sender = new Client(event.getSender());
         client_map.insert(event.getSender(), sender);
+
     } else {
         sender = *client_map.getValue(event.getSender());
     }
+
     sender->addPack(new_pack);
 
     // Atualiza ou cria destinatário
@@ -34,9 +36,11 @@ void System::processRG(Event& event, int index) {
     if (!client_map.contains(event.getRecipient())) {
         recipient = new Client(event.getRecipient());
         client_map.insert(event.getRecipient(), recipient);
+
     } else {
         recipient = *client_map.getValue(event.getRecipient());
     }
+
     recipient->addPack(new_pack);
 }
 
@@ -53,15 +57,18 @@ void System::printEvent(Event& event) {
     if (event.getSender() != "") {
         printf(" %s %s", event.getSender().c_str(), event.getRecipient().c_str());
     }
+
     if (event.getOriginWarehouse() != -1) {
         printf(" %03d", event.getOriginWarehouse());
     }
+
     if (event.getDestinationWarehouse() != -1) {
         printf(" %03d", event.getDestinationWarehouse());
     }
+
     if (event.getNextWarehouse() != -1) {
         printf(" %03d", event.getNextWarehouse());
     }
+
     printf("\n");
 }
-
